@@ -31,3 +31,7 @@ var display = exports.display = function display ()
 		}
 	});
 };
+var getter = exports.getter = function (field)
+{
+	return function (a) { return a[field]; };
+}

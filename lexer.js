@@ -204,6 +204,18 @@ function lexer (filename, data)
 		else
 			return obj.tokens.shift();
 	};
+	obj.empty = function ()
+	{
+		return obj.tokens.length == 0 ||
+			obj.tokens[0].tok == "#eof";
+	};
+	obj.get = function (i)
+	{
+		if (i >= obj.tokens.length)
+			return eof_tok;
+		else
+			return obj.tokens[i];
+	};
 	
 	obj.filename = filename;
 	obj.str = data.replace(/[\r\0]/g, "");
@@ -218,7 +230,7 @@ function lexer_open (filename)
 {
 	var data = null;
 	try {
-		data = fs.readFileSync(filename, { encoding: "utf8" });
+		data = fs.readFileSync(filename).toString();
 	} catch (e) {
 		throw Span.span(null).error("could not open file '" + filename + "'")
 	};

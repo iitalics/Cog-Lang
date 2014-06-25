@@ -2,11 +2,5 @@
 
 
 
-
-func main (args: string[]) -> int 
-{
-	let foo = 5.;
-
-	foo => int
-}
-
+Blah<T>
+Foo<N, T, S>

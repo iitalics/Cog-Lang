@@ -44,13 +44,7 @@ function expect (lex, types, flush)
 
 // tfw no partial application
 // it's a sad feeling
-function expect_curry (types, flush)
-{
-	return function (lex)
-	{
-		return expect(lex, types, flush);
-	};
-}
+var expectf = Util.curryl(Util.curryr, expect);
 
 function parse_list (lex, func, end, start, allow_lazy)
 {
@@ -95,7 +89,7 @@ function environment (lex)
 			var template = [];
 			
 			if (lex.get(0).tok == "<")
-				template = parse_list(lex, expect_curry("#id", true), "<", ">").
+				template = parse_list(lex, expectf("#id", true), "<", ">").
 					map(Util.getter("name"));
 			
 			console.log(id + " <" + template + ">");

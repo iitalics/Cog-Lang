@@ -31,7 +31,32 @@ var display = exports.display = function display ()
 		}
 	});
 };
+
 var getter = exports.getter = function (field)
 {
 	return function (a) { return a[field]; };
-}
+};
+
+var curryl = exports.curryl = function curryl (func)
+{
+	var a = array(arguments).slice(1);
+	
+	return function ()
+	{
+		var b = array(arguments);
+		
+		return func.apply(this, a.concat(b));
+	};
+};
+
+var curryr = exports.curryr = function curryr (func)
+{
+	var a = array(arguments).slice(1);
+	
+	return function ()
+	{
+		var b = array(arguments);
+		
+		return func.apply(this, b.concat(a));
+	};
+};

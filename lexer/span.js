@@ -1,3 +1,4 @@
+
 var colors = {
 	error: "31",
 	warning: "33",
@@ -24,7 +25,7 @@ function span (lexer, start, len)
 		const start = Math.min(obj.start, other.start);
 		const end = Math.max(obj.end, other.end);
 
-		return span(lexer, start, end - start);
+		return span(other.lexer, start, end - start);
 	};
 	obj.error = function (msg, post)
 	{
@@ -63,6 +64,13 @@ function span (lexer, start, len)
 			line = lines[i].replace(/\t/g, " ");
 			arrow = (squiggle === 0);
 			color_active = false;
+			
+			if (line.trim().length == 0)
+			{
+				squiggle += line.length + 1;
+				pad = 0;
+				continue;
+			}
 
 			str += line + "\n";
 			
@@ -109,6 +117,7 @@ function span (lexer, start, len)
 	};
 	
 	len = len || 1;
+	start = start || 0;
 
 	obj.start = start;
 	obj.end = start + len;

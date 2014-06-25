@@ -8,8 +8,14 @@ function unexpect (t)
 
 function environment (lexer)
 {
-	throw unexpect(lexer.next());
-	throw lexer.next().span.error("too lazy to implement everything")
+	//throw unexpect(lexer.next());
+
+	var tok, span;
+	
+	while ((tok = lexer.next()).tok != "#eof")
+		span = (span || tok.span).join(tok.span);
+	
+	throw span.error("too lazy to implement everything");
 }
 
 

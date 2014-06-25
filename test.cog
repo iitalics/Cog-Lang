@@ -1,0 +1,12 @@
+
+
+
+
+
+func main (args: string[]) -> int 
+{
+	let foo = 5au;
+
+	foo => int
+}
+

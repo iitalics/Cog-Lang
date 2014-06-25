@@ -144,3 +144,5 @@ function type_struct (sub, names)
 exports.type_basic = type_basic;
 exports.type_nullable = type_nullable;
 exports.type_array = tupe_array;
+exports.type_tuple = type_tuple;
+exports.type_struct = type_struct;

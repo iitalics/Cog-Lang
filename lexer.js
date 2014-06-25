@@ -1,5 +1,6 @@
 var fs = require("fs");
-var Span = require("./lexer-span.js");
+var Span = exports.Span =
+	require("./lexer/span");
 
 
 const comment_char = "#";
@@ -223,5 +224,27 @@ function lexer_open (filename)
 		return lexer(filename, data);
 }
 
+function token_name (t)
+{
+	if (typeof t == "string")
+	{
+		if (t == "#num")
+			return "<number>";
+		else
+			return token_name({ tok: t });
+	}
+
+	switch (t.tok)
+	{
+	case "#id": return "<identifier>";
+	case "#str": return "<string>";
+	case "#eof": return "<eof>";
+	case "#num": return "<number: " + t.type + ">";
+	default:
+		return t.tok;
+	}
+}
+
 exports.lexer = lexer;
 exports.lexer_open = lexer_open;
+exports.token_name = token_name;

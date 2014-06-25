@@ -5,7 +5,7 @@
 
 func main (args: string[]) -> int 
 {
-	let foo = 5au;
+	let foo = 5.;
 
 	foo => int
 }

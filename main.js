@@ -1,6 +1,8 @@
 #!/usr/bin/node
-var Lexer = require("./lexer.js"),
-	Util = require("./util.js");
+
+var Lexer = require("./lexer"),
+	Util = require("./util"),
+	Parser = require("./parser");
 
 
 var t, lex = Lexer.lexer_open("test.cog");
@@ -8,10 +10,13 @@ var t, lex = Lexer.lexer_open("test.cog");
 try {
 	lex.parseAll();
 
-	while ((t = lex.next()).tok !== "#eof")
+	lex.tokens.forEach(function (t) 
 	{
-		console.log(":: '" + t.tok + "'");
-	};
+		console.log(":: '" + Lexer.token_name(t) + "'");
+	});
+
+	var env = Parser.environment(lex);
+
 } catch (e) {
 	if (typeof e === "string")
 		Util.display(e);

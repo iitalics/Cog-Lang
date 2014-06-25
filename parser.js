@@ -1,32 +1,19 @@
+var Lexer = require("./lexer");
 
-
-
-/*
-
-parse global directives
-	functions
-	types
-	enums (?)
-	namespaces
-
-
-parse block
-	
-	BLOCK =
-		{
-			let ...;
-			EXPRESSION;
-			EXPRESSION
-		}
-	
-
-*/
-
-
-
-
-func main (args: string[]) -> int {
-	let foo = 4u;
-
-	foo => int
+function unexpect (t)
+{
+	return t.span.error("unexpected token '" + t.tok + "'");
 }
+
+
+function environment (lexer)
+{
+	throw unexpect(lexer.next());
+	throw lexer.next().span.error("too lazy to implement everything")
+}
+
+
+
+
+
+exports.environment = environment;

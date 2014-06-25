@@ -5,6 +5,9 @@
 //
 
 
+var DISABLE_COLORS = false;
+
+
 var array = exports.array = function array (a)
 {
 	return Array.prototype.slice.apply(a, [0]);
@@ -23,7 +26,7 @@ var display = exports.display = function display ()
 			var csi = match[2];
 	
 			process.stdout.write(normal);
-			if (csi)
+			if  (csi && !DISABLE_COLORS)
 				process.stderr.write(csi);
 		}
 	});

@@ -216,12 +216,14 @@ function lexer (filename, data)
 
 function lexer_open (filename)
 {
-	var data = fs.readFileSync(filename, { encoding: "utf8" });
-	
-	if (data == null)
-		throw "error: \x1b[31mcould not open file '" + filename + "'\x1b[0m";
-	else
-		return lexer(filename, data);
+	var data = null;
+	try {
+		data = fs.readFileSync(filename, { encoding: "utf8" });
+	} catch (e) {
+		throw Span.span(null).error("could not open file '" + filename + "'")
+	};
+
+	return lexer(filename, data);
 }
 
 function token_name (t)

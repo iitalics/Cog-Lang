@@ -5,14 +5,15 @@ var Lexer = require("./lexer"),
 	Parser = require("./parser");
 
 
-var t, lex = Lexer.lexer_open("test.cog");
+var t, lex;
 
 try {
+	lex = Lexer.lexer_open("test.cog");
 	lex.parseAll();
 
 	lex.tokens.forEach(function (t) 
 	{
-		console.log(":: '" + Lexer.token_name(t) + "'");
+		console.log(":: " + Lexer.token_name(t));
 	});
 
 	var env = Parser.environment(lex);

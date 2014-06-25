@@ -28,10 +28,13 @@ function span (lexer, start, len)
 	};
 	obj.error = function (msg, post)
 	{
-		var title = esc_string("error: ", "error") + msg;
+		var title = esc_string("error: ", "error") + msg + "\n";
+		post = post ? (post + "\n") : "";
 
-		return title + "\n" + obj.message("error") +
-			(post ? (post + "\n") : "");
+		if (!lexer)
+			return title + post;
+		else
+			return title + obj.message("error") + post;
 	};
 	obj.message = function (color)
 	{

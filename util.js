@@ -37,26 +37,20 @@ var getter = exports.getter = function (field)
 	return function (a) { return a[field]; };
 };
 
-var curryl = exports.curryl = function curryl (func)
+var make_curry = function (f)
 {
-	var a = array(arguments).slice(1);
-	
-	return function ()
+	return function (func)
 	{
-		var b = array(arguments);
+		var a = array(arguments).slice(1);
 		
-		return func.apply(this, a.concat(b));
+		return function ()
+		{
+			var b = array(arguments);
+			
+			return func.apply(this, f(a, b));
+		};
 	};
 };
-
-var curryr = exports.curryr = function curryr (func)
-{
-	var a = array(arguments).slice(1);
-	
-	return function ()
-	{
-		var b = array(arguments);
-		
-		return func.apply(this, b.concat(a));
-	};
-};
+var curryl = exports.curryl = make_curry(function (l, r) { return l.concat(r); });
+var curryr = exports.curryr = make_curry(function (r, l) { return l.concat(r); });
+// we functional now!

@@ -48,8 +48,7 @@ var expectf = Util.curryl(Util.curryr, expect);
 
 function parse_list (lex, func, end, start, allow_lazy)
 {
-	if (start)
-	{
+	if (start) {
 		var a = end; // poo
 		end = start;
 		start = a;
@@ -59,19 +58,17 @@ function parse_list (lex, func, end, start, allow_lazy)
 	
 	var s, out = [];
 	
-	for (;;)
-	{
+	for (;;) {
 		out.push(func(lex));
 		
 		s = lex.next();
-		if (s.tok != "," && s.tok != end)
+		if (s.tok != "," && s.tok != end) {
 			throw s.span.error("expected ',' or '" +
 					Lexer.token_name(end) + "', got '" +
 					Lexer.token_name(s) + "'");
-		else if (s.tok == end)
+		} else if (s.tok == end) {
 			break;
-		else if (allow_lazy && lex.get(0).tok == end)
-		{
+		} else if (allow_lazy && lex.get(0).tok == end) {
 			lex.next();
 			break;
 		}
@@ -80,6 +77,9 @@ function parse_list (lex, func, end, start, allow_lazy)
 	// it's a horrible feeling
 	return out;
 }
+
+
+
 
 function environment (lex)
 {

@@ -1,3 +1,4 @@
+var Parser = require("./parser");
 
 /*	what capabilities does the type system interface need?
 
@@ -8,7 +9,6 @@ does one type implicitly cast to another?
 
 ->	soft cast
 =>	hard cast
-
 
 
 if the types do not implicitly cast, THEY MUST BE EXPLICTLY CASTED
@@ -47,17 +47,24 @@ hard casts:
 	string => char[]	?? this could be useful
 */
 
+var basic_types = exports.basic_types =
+	[
+		"char",
+		"byte",
+		"uint",
+		"int",
+		"long",
+		"float",
+		"string"
+	];
 
-/*
-	basic types:
-		string
-		bool
-		char
-		byte
-		uint
-		int
-		real
-*/
+
+/*	sizeof char	implementation defined, 1 or 2
+	sizeof byte	always 1
+	sizeof (u)int	4
+	sizeof long	8
+	sizeof float	8  */
+
 
 function equals (t1, t2)
 {
@@ -80,20 +87,21 @@ function equals (t1, t2)
 	return true;
 }
 
-function type_basic (name)
+function basic (name, templates)
 {
-	var obj = {};
+	var obj = Parser.Type.formalizer();
 
 	// TODO: numeric casts? is this even a thing?
 	obj.soft_cast = function (src) { return equals(obj, src); };
 	
 	obj.kind = "basic";	
 	obj.name = name;
+	obj.templates = templates || [];
 	return obj;
 }
-function type_nullable (sub)
+function nullable (sub)
 {
-	var obj = {};
+	var obj = Parser.Type.formalizer();
 	
 	obj.soft_cast = function (src)
 	{
@@ -107,9 +115,9 @@ function type_nullable (sub)
 	obj.subtype = sub;
 	return obj;
 }
-function type_array (sub)
+function array (sub)
 {
-	var obj = {};
+	var obj = Parser.Type.formalizer();
 	
 	obj.soft_cast = function (src) { return equals(obj, src); };
 
@@ -117,9 +125,20 @@ function type_array (sub)
 	obj.subtype = sub;
 	return obj;
 }
-function type_tuple (sub, names)
+function tuple (sub, names)
 {
-	var obj = {};
+	var obj = Parser.Type.formalizer();
+	
+	obj.soft_cast = function (src) { return equals(obj, src); };
+
+	obj.kind = "tuple";
+	obj.subtypes = sub;
+	obj.names = names || [];
+	return obj;
+}
+function struct (sub, names)
+{
+	var obj = Parser.Type.formalizer();
 	
 	obj.soft_cast = function (src) { return equals(obj, src); };
 
@@ -129,20 +148,9 @@ function type_tuple (sub, names)
 	return obj;
 }
 
-function type_struct (sub, names)
-{
-	var obj = {};
-	
-	obj.soft_cast = function (src) { return equals(obj, src); };
+exports.basic = basic;
+exports.nullable = nullable;
+exports.array = array;
+exports.tuple = tuple;
+exports.struct = struct;
 
-	obj.kind = "tuple";
-	obj.subtypes = sub;
-	obj.names = names || [];
-	return obj;
-}
-
-exports.type_basic = type_basic;
-exports.type_nullable = type_nullable;
-exports.type_array = tupe_array;
-exports.type_tuple = type_tuple;
-exports.type_struct = type_struct;

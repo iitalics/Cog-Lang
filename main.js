@@ -11,11 +11,6 @@ try {
 	lex = Lexer.lexer_open("test.cog");
 	lex.parseAll();
 
-	lex.tokens.forEach(function (t) 
-	{
-		console.log(":: " + Lexer.token_name(t));
-	});
-
 	var env = Parser.environment(lex);
 
 } catch (e) {

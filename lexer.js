@@ -19,7 +19,7 @@ var keywords =
 	("if else elif " +
 	"for while match return " +
 	"const let func type enum " +
-	"byte int uint long real string " +
+	"byte int uint long float string " +
 	"and or not " +
 
 	"").split(" ");
@@ -211,6 +211,8 @@ function lexer (filename, data)
 	};
 	obj.get = function (i)
 	{
+		i = i || 0;
+		
 		if (i >= obj.tokens.length)
 			return eof_tok;
 		else

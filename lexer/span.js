@@ -1,6 +1,7 @@
 
 var colors = {
 	error: "31",
+	good: "32",
 	warning: "33",
 	none: "0"
 };
@@ -114,6 +115,10 @@ function span (lexer, start, len)
 		return lexer.filename +
 			": line " + line_num + ", col " + col_num +
 			":\n" + str;
+	};
+	obj.toString = function ()
+	{
+		return "[" + obj.start + " -> " + obj.end + "]";
 	};
 	
 	len = len || 1;
